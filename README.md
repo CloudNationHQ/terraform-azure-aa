@@ -101,3 +101,4 @@ MIT Licensed. See [LICENSE](https://github.com/cloudnationhq/terraform-azure-aa/
 
 - [Documentation](https://learn.microsoft.com/en-us/azure/automation/)
 - [Rest Api](https://learn.microsoft.com/en-us/rest/api/automation/)
+
