@@ -19,9 +19,8 @@ module "rg" {
 
 
 module "automation" {
-  #source  = "cloudnationhq/kv/azure"
-  #version = "~> 0.1"
-  source = "../../"
+  source  = "cloudnationhq/aa/azure"
+  version = "~> 0.1"
 
   account = {
     name          = module.naming.automation_account.name
