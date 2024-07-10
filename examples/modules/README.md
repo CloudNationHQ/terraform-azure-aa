@@ -18,4 +18,4 @@ account = object({
 
 ## Notes
 
-If a module is marked as type powershell72, it uses the `azurerm_automation_powershell72_module` resource. If not, it defaults to the more generic `azurerm_automation_module`.
+If a module is marked as type powershell72, it uses the azurerm_automation_powershell72_module resource. If not, it defaults to the more generic azurerm_automation_module.
