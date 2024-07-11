@@ -40,7 +40,7 @@ module "kv" {
 }
 
 module "runbooks" {
-  source  = "cloudnationhq/aa/azure/modules/runbooks"
+  source  = "cloudnationhq/aa/azure//modules/runbooks"
   version = "~> 0.1"
 
   naming = local.naming
