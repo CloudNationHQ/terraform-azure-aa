@@ -31,16 +31,6 @@ resource "azurerm_user_assigned_identity" "identity" {
   tags                = try(var.account.tags, var.tags, null)
 }
 
-# variable objects
-resource "azurerm_automation_variable_object" "obj" {
-  for_each = try(var.account.variables, {})
-
-  name                    = try(each.value.name, join("-", [var.naming.automation_variable, each.key]))
-  resource_group_name     = coalesce(lookup(var.account, "resourcegroup", null), var.resourcegroup)
-  automation_account_name = azurerm_automation_account.aa.name
-  value                   = jsonencode(each.value.value)
-}
-
 # modules
 resource "azurerm_automation_module" "mod" {
   for_each = {
@@ -85,4 +75,65 @@ resource "azurerm_automation_credential" "creds" {
   username                = each.value.username
   password                = each.value.password
   description             = try(each.value.description, null)
+}
+
+# variable objects
+resource "azurerm_automation_variable_string" "variables" {
+  for_each = {
+    for v in local.variables : v.key => v
+    if v.type == "string"
+  }
+
+  name                    = each.value.name
+  resource_group_name     = coalesce(lookup(var.account, "resourcegroup", null), var.resourcegroup)
+  automation_account_name = azurerm_automation_account.aa.name
+  value                   = tostring(each.value.value)
+}
+
+resource "azurerm_automation_variable_int" "variables" {
+  for_each = {
+    for v in local.variables : v.key => v
+    if v.type == "int"
+  }
+
+  name                    = each.value.name
+  resource_group_name     = coalesce(lookup(var.account, "resourcegroup", null), var.resourcegroup)
+  automation_account_name = azurerm_automation_account.aa.name
+  value                   = tonumber(each.value.value)
+}
+
+resource "azurerm_automation_variable_bool" "variables" {
+  for_each = {
+    for v in local.variables : v.key => v
+    if v.type == "bool"
+  }
+
+  name                    = each.value.name
+  resource_group_name     = coalesce(lookup(var.account, "resourcegroup", null), var.resourcegroup)
+  automation_account_name = azurerm_automation_account.aa.name
+  value                   = tobool(each.value.value)
+}
+
+resource "azurerm_automation_variable_datetime" "variables" {
+  for_each = {
+    for v in local.variables : v.key => v
+    if v.type == "datetime"
+  }
+
+  name                    = each.value.name
+  resource_group_name     = coalesce(lookup(var.account, "resourcegroup", null), var.resourcegroup)
+  automation_account_name = azurerm_automation_account.aa.name
+  value                   = each.value.value
+}
+
+resource "azurerm_automation_variable_object" "variables" {
+  for_each = {
+    for v in local.variables : v.key => v
+    if v.type == "object"
+  }
+
+  name                    = each.value.name
+  resource_group_name     = coalesce(lookup(var.account, "resourcegroup", null), var.resourcegroup)
+  automation_account_name = azurerm_automation_account.aa.name
+  value                   = jsonencode(each.value.value)
 }
