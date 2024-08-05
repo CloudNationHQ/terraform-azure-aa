@@ -12,6 +12,16 @@ A primary goal is to utilize keys and values in the object that correspond to th
 
 A last key goal is to separate logic from configuration in the module, thereby enhancing its scalability, ease of customization, and manageability.
 
+## Non-Goals
+
+These modules are not intended to be complete, ready-to-use solutions; they are designed as components for creating your own patterns.
+
+They are not tailored for a single use case but are meant to be versatile and applicable to a range of scenarios.
+
+Security standardization is applied at the pattern level, while the modules include default values based on best practices but do not enforce specific security standards.
+
+End-to-end testing is not conducted on these modules, as they are individual components and do not undergo the extensive testing reserved for complete patterns or solutions.
+
 ## Features
 
 - support for multiple variable objects
@@ -19,6 +29,7 @@ A last key goal is to separate logic from configuration in the module, thereby e
 - utilization of terratest for robust validation
 - capability to add multiple modules, including both generic and powershell modules
 - ability to associate multiple runbooks with one or more schedules
+- dynamic type inference for automation variables
 
 ## Requirements
 
@@ -48,6 +59,10 @@ A last key goal is to separate logic from configuration in the module, thereby e
 | [azurerm_automation_module](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/automation_module) | resource |
 | [azurerm_automation_powershell72_module](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/automation_powershell72_module) | resource |
 | [azurerm_automation_variable_object](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/automation_variable_object) | resource |
+| [azurerm_automation_variable_string](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/automation_variable_string) | resource |
+| [azurerm_automation_variable_bool](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/automation_variable_bool) | resource |
+| [azurerm_automation_variable_int](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/automation_variable_intt) | resource |
+| [azurerm_automation_variable_datetime](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/automation_variable_datetime) | resource |
 | [azurerm_user_assigned_identity](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/user_assigned_identity) | resource |
 | [azurerm_automation_job_schedule](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/automation_job_schedule) | resource |
 | [azurerm_automation_runbook](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/automation_runbook) | resource |
@@ -55,9 +70,9 @@ A last key goal is to separate logic from configuration in the module, thereby e
 
 ## Inputs
 
-| Name | Description | Type | Default | Required |
-|------|-------------|------|---------|:--------:|
-| `account` | contains automation account details | any | n/a | yes |
+| Name | Description | Type | Required |
+|------|-------------|------|--------:|
+| `account` | contains automation account details | any | yes |
 | `naming` | contains naming convention | string | yes |
 | `location` | default azure region to be used | string | no |
 | `resourcegroup` | default resource group to be used | string | no |
@@ -92,6 +107,12 @@ Full examples detailing all usages, along with integrations with dependency modu
 ## Authors
 
 Module is maintained by [these awesome contributors](https://github.com/cloudnationhq/terraform-azure-aa/graphs/contributors).
+
+## Contributing
+
+We welcome contributions from the community! Whether it's reporting a bug, suggesting a new feature, or submitting a pull request, your input is highly valued.
+
+For more information, please see our contribution [guidelines](https://github.com/CloudNationHQ/terraform-azure-aa/blob/main/CONTRIBUTE.md).
 
 ## License
 
