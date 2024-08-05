@@ -19,6 +19,7 @@ A last key goal is to separate logic from configuration in the module, thereby e
 - utilization of terratest for robust validation
 - capability to add multiple modules, including both generic and powershell modules
 - ability to associate multiple runbooks with one or more schedules
+- dynamic type inference for automation variables
 
 ## Requirements
 
@@ -48,6 +49,10 @@ A last key goal is to separate logic from configuration in the module, thereby e
 | [azurerm_automation_module](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/automation_module) | resource |
 | [azurerm_automation_powershell72_module](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/automation_powershell72_module) | resource |
 | [azurerm_automation_variable_object](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/automation_variable_object) | resource |
+| [azurerm_automation_variable_string](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/automation_variable_string) | resource |
+| [azurerm_automation_variable_bool](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/automation_variable_bool) | resource |
+| [azurerm_automation_variable_int](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/automation_variable_intt) | resource |
+| [azurerm_automation_variable_datetime](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/automation_variable_datetime) | resource |
 | [azurerm_user_assigned_identity](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/user_assigned_identity) | resource |
 | [azurerm_automation_job_schedule](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/automation_job_schedule) | resource |
 | [azurerm_automation_runbook](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/automation_runbook) | resource |
