@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.2.0](https://github.com/CloudNationHQ/terraform-azure-aa/compare/v0.1.1...v0.2.0) (2024-08-05)
+
+
+### Features
+
+* **deps:** Bump github.com/gruntwork-io/terratest in /tests ([#6](https://github.com/CloudNationHQ/terraform-azure-aa/issues/6)) ([01d3251](https://github.com/CloudNationHQ/terraform-azure-aa/commit/01d32512779ed26caaa7e2c41c756b3f0f8184e5))
+* dynamic type inference for automation variables ([#8](https://github.com/CloudNationHQ/terraform-azure-aa/issues/8)) ([e23cbd8](https://github.com/CloudNationHQ/terraform-azure-aa/commit/e23cbd8cc24ff44e27b28ab22845eb6e740d8e34))
+
 ## [0.1.1](https://github.com/CloudNationHQ/terraform-azure-aa/compare/v0.1.0...v0.1.1) (2024-07-11)
 
 
