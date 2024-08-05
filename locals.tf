@@ -6,7 +6,7 @@ locals {
       name  = try(value.name, join("-", [var.naming.automation_variable, key]))
       key   = key
       value = value.value
-      type  = can(tobool(value.value)) ? "bool" : (
+      type = can(tobool(value.value)) ? "bool" : (
         can(tonumber(value.value)) ? "int" : (
           can(regex(local.rfc3339_regex, tostring(value.value))) ? "datetime" : (
             can(jsonencode(value.value)) && !can(tostring(value.value)) ? "object" : "string"
