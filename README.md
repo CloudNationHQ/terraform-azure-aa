@@ -60,9 +60,9 @@ A last key goal is to separate logic from configuration in the module, thereby e
 
 ## Inputs
 
-| Name | Description | Type | Default | Required |
-|------|-------------|------|---------|:--------:|
-| `account` | contains automation account details | any | n/a | yes |
+| Name | Description | Type | Required |
+|------|-------------|------|--------:|
+| `account` | contains automation account details | any | yes |
 | `naming` | contains naming convention | string | yes |
 | `location` | default azure region to be used | string | no |
 | `resourcegroup` | default resource group to be used | string | no |
