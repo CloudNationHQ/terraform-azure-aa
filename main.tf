@@ -80,10 +80,15 @@ resource "azurerm_automation_credential" "creds" {
 # variable objects
 resource "azurerm_automation_variable_string" "variables" {
   for_each = {
-    for v in local.variables : v.key => v
-    if v.type == "string"
+    for key, value in try(var.account.variables, {}) : key => {
+      name  = try(value.name, join("-", [var.naming.automation_variable, key]))
+      value = value.value
+    }
+    if !can(tobool(value.value)) &&
+       !can(tonumber(value.value)) &&
+       !can(regex("^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d+)?(Z|[+-]\\d{2}:\\d{2})$", tostring(value.value))) &&
+       !(can(jsonencode(value.value)) && !can(tostring(value.value)))
   }
-
   name                    = each.value.name
   resource_group_name     = coalesce(lookup(var.account, "resourcegroup", null), var.resourcegroup)
   automation_account_name = azurerm_automation_account.aa.name
@@ -92,10 +97,12 @@ resource "azurerm_automation_variable_string" "variables" {
 
 resource "azurerm_automation_variable_int" "variables" {
   for_each = {
-    for v in local.variables : v.key => v
-    if v.type == "int"
+    for key, value in try(var.account.variables, {}) : key => {
+      name  = try(value.name, join("-", [var.naming.automation_variable, key]))
+      value = value.value
+    }
+    if can(tonumber(value.value)) && !can(tobool(value.value))
   }
-
   name                    = each.value.name
   resource_group_name     = coalesce(lookup(var.account, "resourcegroup", null), var.resourcegroup)
   automation_account_name = azurerm_automation_account.aa.name
@@ -104,10 +111,12 @@ resource "azurerm_automation_variable_int" "variables" {
 
 resource "azurerm_automation_variable_bool" "variables" {
   for_each = {
-    for v in local.variables : v.key => v
-    if v.type == "bool"
+    for key, value in try(var.account.variables, {}) : key => {
+      name  = try(value.name, join("-", [var.naming.automation_variable, key]))
+      value = value.value
+    }
+    if can(tobool(value.value))
   }
-
   name                    = each.value.name
   resource_group_name     = coalesce(lookup(var.account, "resourcegroup", null), var.resourcegroup)
   automation_account_name = azurerm_automation_account.aa.name
@@ -116,10 +125,12 @@ resource "azurerm_automation_variable_bool" "variables" {
 
 resource "azurerm_automation_variable_datetime" "variables" {
   for_each = {
-    for v in local.variables : v.key => v
-    if v.type == "datetime"
+    for key, value in try(var.account.variables, {}) : key => {
+      name  = try(value.name, join("-", [var.naming.automation_variable, key]))
+      value = value.value
+    }
+    if can(regex("^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d+)?(Z|[+-]\\d{2}:\\d{2})$", tostring(value.value)))
   }
-
   name                    = each.value.name
   resource_group_name     = coalesce(lookup(var.account, "resourcegroup", null), var.resourcegroup)
   automation_account_name = azurerm_automation_account.aa.name
@@ -128,10 +139,12 @@ resource "azurerm_automation_variable_datetime" "variables" {
 
 resource "azurerm_automation_variable_object" "variables" {
   for_each = {
-    for v in local.variables : v.key => v
-    if v.type == "object"
+    for key, value in try(var.account.variables, {}) : key => {
+      name  = try(value.name, join("-", [var.naming.automation_variable, key]))
+      value = value.value
+    }
+    if can(jsonencode(value.value)) && !can(tostring(value.value))
   }
-
   name                    = each.value.name
   resource_group_name     = coalesce(lookup(var.account, "resourcegroup", null), var.resourcegroup)
   automation_account_name = azurerm_automation_account.aa.name
