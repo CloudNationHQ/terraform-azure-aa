@@ -85,9 +85,9 @@ resource "azurerm_automation_variable_string" "variables" {
       value = value.value
     }
     if !can(tobool(value.value)) &&
-       !can(tonumber(value.value)) &&
-       !can(regex("^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d+)?(Z|[+-]\\d{2}:\\d{2})$", tostring(value.value))) &&
-       !(can(jsonencode(value.value)) && !can(tostring(value.value)))
+    !can(tonumber(value.value)) &&
+    !can(regex("^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d+)?(Z|[+-]\\d{2}:\\d{2})$", tostring(value.value))) &&
+    !(can(jsonencode(value.value)) && !can(tostring(value.value)))
   }
   name                    = each.value.name
   resource_group_name     = coalesce(lookup(var.account, "resourcegroup", null), var.resourcegroup)
