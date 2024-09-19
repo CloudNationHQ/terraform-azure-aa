@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.4.0](https://github.com/CloudNationHQ/terraform-azure-aa/compare/v0.3.0...v0.4.0) (2024-09-19)
+
+
+### Features
+
+* **deps:** Bump github.com/gruntwork-io/terratest in /tests ([#12](https://github.com/CloudNationHQ/terraform-azure-aa/issues/12)) ([6c91449](https://github.com/CloudNationHQ/terraform-azure-aa/commit/6c91449ca042a51d2264d9ef4eadc05a5686a65c))
+* refactor automation variables to integrate type detection logic and simplified tests ([#13](https://github.com/CloudNationHQ/terraform-azure-aa/issues/13)) ([40b10cd](https://github.com/CloudNationHQ/terraform-azure-aa/commit/40b10cd6177be3238634cf4f1b615b2c449e8748))
+
 ## [0.3.0](https://github.com/CloudNationHQ/terraform-azure-aa/compare/v0.2.0...v0.3.0) (2024-08-29)
 
 
