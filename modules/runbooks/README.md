@@ -30,6 +30,6 @@ Name | Description | Type | Default | Required |
 | <a name="input_automation_account"></a> [automation\_account](#input\_automation\_account) | contains the automation account name | `string` | `null` | no |
 | <a name="input_location"></a> [location](#input\_location) | contains the region | `string` | `null` | no |
 | <a name="input_naming"></a> [naming](#input\_naming) | used for naming purposes | `map(string)` | `{}` | no |
-| <a name="input_resourcegroup"></a> [resourcegroup](#input\_resourcegroup) | contains the resourcegroup name | `string` | `null` | no |
-| <a name="input_runbooks"></a> [runbooks](#input\_runbooks) | n/a | `any` | n/a | yes |
+| <a name="input_resource_group"></a> [resourcegroup](#input\_resource_group) | contains the resourcegroup name | `string` | `null` | no |
+| <a name="input_config"></a> [runbooks](#input\_configs) | n/a | `any` | n/a | yes |
 | <a name="input_tags"></a> [tags](#input\_tags) | tags to be added to the resources | `map(string)` | `{}` | no |

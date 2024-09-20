@@ -5,7 +5,7 @@ This deploys multiple runbooks along with their corresponding schedules.
 ## Types
 
 ```hcl
-runbooks = map(object({
+config = map(object({
   name         = optional(string)
   runbook_type = string
   log_verbose  = bool

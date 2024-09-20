@@ -7,26 +7,26 @@ module "naming" {
 
 module "rg" {
   source  = "cloudnationhq/rg/azure"
-  version = "~> 0.1"
+  version = "~> 1.0"
 
   groups = {
     demo = {
-      name   = module.naming.resource_group.name
-      region = "westeurope"
+      name     = module.naming.resource_group.name
+      location = "westeurope"
     }
   }
 }
 
 module "kv" {
   source  = "cloudnationhq/kv/azure"
-  version = "~> 0.1"
+  version = "~> 1.0"
 
   naming = local.naming
 
   vault = {
-    name          = module.naming.key_vault.name_unique
-    location      = module.rg.groups.demo.location
-    resourcegroup = module.rg.groups.demo.name
+    name           = module.naming.key_vault.name_unique
+    location       = module.rg.groups.demo.location
+    resource_group = module.rg.groups.demo.name
 
     secrets = {
       random_string = {
@@ -41,28 +41,28 @@ module "kv" {
 
 module "runbooks" {
   source  = "cloudnationhq/aa/azure//modules/runbooks"
-  version = "~> 0.1"
+  version = "~> 1.0"
 
   naming = local.naming
 
-  resourcegroup      = module.rg.groups.demo.name
+  resource_group     = module.rg.groups.demo.name
   location           = module.rg.groups.demo.location
-  automation_account = module.automation.account.name
+  automation_account = module.automation_acccount.config.name
 
   runbooks = local.runbooks
 }
 
-module "automation" {
+module "automation_account" {
   source  = "cloudnationhq/aa/azure"
-  version = "~> 0.1"
+  version = "~> 1.0"
 
   naming = local.naming
 
-  account = {
-    name          = module.naming.automation_account.name
-    resourcegroup = module.rg.groups.demo.name
-    location      = module.rg.groups.demo.location
-    modules       = local.modules
+  config = {
+    name           = module.naming.automation_account.name
+    resource_group = module.rg.groups.demo.name
+    location       = module.rg.groups.demo.location
+    modules        = local.modules
 
     variables = {
       maintenance = {

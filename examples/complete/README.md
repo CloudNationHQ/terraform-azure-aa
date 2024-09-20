@@ -5,7 +5,7 @@ This example highlights the complete usage.
 ## Types
 
 ```hcl
-account = object({
+config = object({
   name          = optional(string)
   resourcegroup = optional(string)
   location      = string

@@ -72,17 +72,17 @@ End-to-end testing is not conducted on these modules, as they are individual com
 
 | Name | Description | Type | Required |
 |------|-------------|------|--------:|
-| `account` | contains automation account details | any | yes |
+| `config` | contains automation account details | any | yes |
 | `naming` | contains naming convention | string | yes |
 | `location` | default azure region to be used | string | no |
-| `resourcegroup` | default resource group to be used | string | no |
+| `resource_group` | default resource group to be used | string | no |
 | `tags` | tags to be added to the resources | map(string) | no |
 
 ## Outputs
 
 | Name | Description |
 | :-- | :-- |
-| `account` | automation account details |
+| `config` | automation account details |
 
 ## Testing
 
