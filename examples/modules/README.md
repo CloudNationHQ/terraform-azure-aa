@@ -5,7 +5,7 @@ This deploys one or more modules within the automation account
 ## Types
 
 ```hcl
-account = object({
+config = object({
   name          = string
   resourcegroup = string
   location      = string
