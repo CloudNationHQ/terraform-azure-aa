@@ -8,51 +8,42 @@ import (
 	"github.com/gruntwork-io/terratest/modules/terraform"
 )
 
-type TerraformModuleDeployer interface {
-	ConfigureOptions(t *testing.T) *terraform.Options
-	Apply(t *testing.T, opts *terraform.Options)
-	Destroy(t *testing.T, opts *terraform.Options)
-}
-
 type TerraformModule struct {
-	Name string
-	Path string
+	Name    string
+	Path    string
+	Options *terraform.Options
 }
 
 func NewTerraformModule(name, path string) *TerraformModule {
 	return &TerraformModule{
 		Name: name,
 		Path: path,
+		Options: &terraform.Options{
+			TerraformDir: path,
+			NoColor:      true,
+		},
 	}
 }
 
-func (m *TerraformModule) ConfigureOptions(t *testing.T) *terraform.Options {
-	return &terraform.Options{
-		TerraformDir: m.Path,
-		NoColor:      true,
-		Parallelism:  2,
-	}
-}
-
-func (m *TerraformModule) Apply(t *testing.T, opts *terraform.Options) {
+func (m *TerraformModule) Apply(t *testing.T) {
 	t.Logf("Applying Terraform module: %s", m.Name)
-	terraform.WithDefaultRetryableErrors(t, opts)
-	terraform.InitAndApply(t, opts)
+	terraform.WithDefaultRetryableErrors(t, m.Options)
+	terraform.InitAndApply(t, m.Options)
 }
 
-func (m *TerraformModule) Destroy(t *testing.T, opts *terraform.Options) {
+func (m *TerraformModule) Destroy(t *testing.T) {
 	t.Logf("Destroying Terraform module: %s", m.Name)
-	terraform.Destroy(t, opts)
-	cleanupFiles(t, opts.TerraformDir)
+	terraform.Destroy(t, m.Options)
+	m.cleanupFiles(t)
 }
 
-func cleanupFiles(t *testing.T, dir string) {
-	t.Logf("Cleaning up in: %s", dir)
+func (m *TerraformModule) cleanupFiles(t *testing.T) {
+	t.Logf("Cleaning up in: %s", m.Options.TerraformDir)
 	filesToCleanup := []string{"*.terraform*", "*tfstate*"}
 	for _, pattern := range filesToCleanup {
-		matches, err := filepath.Glob(filepath.Join(dir, pattern))
+		matches, err := filepath.Glob(filepath.Join(m.Options.TerraformDir, pattern))
 		if err != nil {
-			t.Errorf("Error globbing %s: %v", pattern, err)
+			t.Errorf("Error matching pattern %s: %v", pattern, err)
 			continue
 		}
 		for _, filePath := range matches {
@@ -66,17 +57,16 @@ func cleanupFiles(t *testing.T, dir string) {
 func TestApplyNoError(t *testing.T) {
 	t.Parallel()
 
-	tfPath := os.Getenv("TF_PATH")
-	if tfPath == "" {
-		t.Fatal("TF_PATH environment variable is not set")
+	example := os.Getenv("EXAMPLE")
+	if example == "" {
+		t.Fatal("EXAMPLE environment variable is not set")
 	}
 
-	modulePath := filepath.Join("..", "examples", tfPath)
-	module := NewTerraformModule(tfPath, modulePath)
+	modulePath := filepath.Join("..", "examples", example)
+	module := NewTerraformModule(example, modulePath)
 
 	t.Run(module.Name, func(t *testing.T) {
-		opts := module.ConfigureOptions(t)
-		defer module.Destroy(t, opts)
-		module.Apply(t, opts)
+		defer module.Destroy(t)
+		module.Apply(t)
 	})
 }
