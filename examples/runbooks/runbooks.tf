@@ -51,6 +51,11 @@ locals {
           }
         }
       }
+      webhooks = {
+        event = {
+          expiry_time = "2024-12-31T23:59:59Z"
+        }
+      }
     }
     draft = {
       runbook_type = "PowerShell"
