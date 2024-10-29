@@ -38,5 +38,8 @@ This submodule focuses on managing runbooks and their associated schedules.
 
 ## Outputs
 
-No outputs.
+| Name | Description |
+|------|-------------|
+| <a name="output_runbook"></a> [runbook](#output\_runbook) | contains runbook details |
+| <a name="output_webhook"></a> [webhook](#output\_webhook) | contains webhook details |
 <!-- END_TF_DOCS -->
