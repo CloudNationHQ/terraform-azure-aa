@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.2.0](https://github.com/CloudNationHQ/terraform-azure-aa/compare/v2.1.0...v2.2.0) (2024-10-29)
+
+
+### Features
+
+* add webhook support for runbooks ([#25](https://github.com/CloudNationHQ/terraform-azure-aa/issues/25)) ([f09b7cf](https://github.com/CloudNationHQ/terraform-azure-aa/commit/f09b7cffe5138e60befe2d94e057d4592d42a2ef))
+
 ## [2.1.0](https://github.com/CloudNationHQ/terraform-azure-aa/compare/v2.0.0...v2.1.0) (2024-10-11)
 
 
