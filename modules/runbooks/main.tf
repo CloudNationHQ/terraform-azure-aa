@@ -77,3 +77,25 @@ resource "azurerm_automation_job_schedule" "job_schedules" {
   runbook_name            = azurerm_automation_runbook.runbooks[each.value.runbook_key].name
   parameters              = try(each.value.job_schedule_parameters, null)
 }
+
+resource "azurerm_automation_webhook" "webhooks" {
+  for_each = merge([
+    for runbook_key, runbook in var.config : {
+      for webhook_key, webhook in try(runbook.webhooks, {}) :
+      "${runbook_key}-${webhook_key}" => merge(webhook, {
+        runbook_key = runbook_key
+        webhook_key = webhook_key
+      })
+    }
+  ]...)
+
+  name                    = try(each.value.name, join("-", [var.naming.automation_webhook, each.key]))
+  resource_group_name     = coalesce(lookup(var.config, "resource_group", null), var.resource_group)
+  automation_account_name = var.automation_account
+  runbook_name            = azurerm_automation_runbook.runbooks[each.value.runbook_key].name
+  expiry_time             = each.value.expiry_time
+  enabled                 = try(each.value.enabled, true)
+  run_on_worker_group     = try(each.value.run_on_worker_group, null)
+  parameters              = try(each.value.parameters, null)
+  uri                     = try(each.value.uri, null)
+}
