@@ -11,7 +11,7 @@ module "rg" {
 
   groups = {
     demo = {
-      name     = module.naming.resource_group.name
+      name     = module.naming.resource_group.name_unique
       location = "westeurope"
     }
   }
@@ -24,7 +24,7 @@ module "automation_account" {
   naming = local.naming
 
   config = {
-    name           = module.naming.automation_account.name
+    name           = module.naming.automation_account.name_unique
     resource_group = module.rg.groups.demo.name
     location       = module.rg.groups.demo.location
 

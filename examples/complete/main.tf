@@ -11,7 +11,7 @@ module "rg" {
 
   groups = {
     demo = {
-      name     = module.naming.resource_group.name
+      name     = module.naming.resource_group.name_unique
       location = "westeurope"
     }
   }
@@ -19,7 +19,7 @@ module "rg" {
 
 module "kv" {
   source  = "cloudnationhq/kv/azure"
-  version = "~> 1.0"
+  version = "~> 2.0"
 
   naming = local.naming
 
@@ -47,9 +47,9 @@ module "runbooks" {
 
   resource_group     = module.rg.groups.demo.name
   location           = module.rg.groups.demo.location
-  automation_account = module.automation_acccount.config.name
+  automation_account = module.automation_account.config.name
 
-  runbooks = local.runbooks
+  config = local.runbooks
 }
 
 module "automation_account" {
@@ -59,7 +59,7 @@ module "automation_account" {
   naming = local.naming
 
   config = {
-    name           = module.naming.automation_account.name
+    name           = module.naming.automation_account.name_unique
     resource_group = module.rg.groups.demo.name
     location       = module.rg.groups.demo.location
     modules        = local.modules
