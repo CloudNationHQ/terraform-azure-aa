@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.4.1](https://github.com/CloudNationHQ/terraform-azure-aa/compare/v2.4.0...v2.4.1) (2024-11-13)
+
+
+### Bug Fixes
+
+* fix submodule documentation generation ([#31](https://github.com/CloudNationHQ/terraform-azure-aa/issues/31)) ([219bf70](https://github.com/CloudNationHQ/terraform-azure-aa/commit/219bf7012ff89c5ce05112da1631ca7522b40238))
+
 ## [2.4.0](https://github.com/CloudNationHQ/terraform-azure-aa/compare/v2.3.0...v2.4.0) (2024-11-11)
 
 
