@@ -44,6 +44,16 @@ resource "azurerm_automation_module" "mod" {
 
   module_link {
     uri = each.value.uri
+
+    # only shown when a module is linked via a URI
+    dynamic "hash" {
+      for_each = lookup(each.value, "hash", null) != null ? [each.value.hash] : []
+
+      content {
+        algorithm = hash.value.algorithm
+        value     = hash.value.value
+      }
+    }
   }
 }
 
@@ -56,8 +66,22 @@ resource "azurerm_automation_powershell72_module" "modpwsh72" {
   name                  = try(each.value.name, each.key)
   automation_account_id = azurerm_automation_account.aa.id
 
+  tags = try(
+    var.config.tags, var.tags, null
+  )
+
   module_link {
     uri = each.value.uri
+
+    # only shown when a module is linked via a URI
+    dynamic "hash" {
+      for_each = lookup(each.value, "hash", null) != null ? [each.value.hash] : []
+
+      content {
+        value     = hash.value.value
+        algorithm = hash.value.algorithm
+      }
+    }
   }
 }
 
@@ -93,6 +117,8 @@ resource "azurerm_automation_variable_string" "variables" {
   resource_group_name     = coalesce(lookup(var.config, "resource_group", null), var.resource_group)
   automation_account_name = azurerm_automation_account.aa.name
   value                   = tostring(each.value.value)
+  encrypted               = try(each.value.encrypted, false)
+  description             = try(each.value.description, null)
 }
 
 resource "azurerm_automation_variable_int" "variables" {
@@ -109,6 +135,8 @@ resource "azurerm_automation_variable_int" "variables" {
   resource_group_name     = coalesce(lookup(var.config, "resource_group", null), var.resource_group)
   automation_account_name = azurerm_automation_account.aa.name
   value                   = tonumber(each.value.value)
+  encrypted               = try(each.value.encrypted, false)
+  description             = try(each.value.description, null)
 }
 
 resource "azurerm_automation_variable_bool" "variables" {
@@ -125,6 +153,8 @@ resource "azurerm_automation_variable_bool" "variables" {
   resource_group_name     = coalesce(lookup(var.config, "resource_group", null), var.resource_group)
   automation_account_name = azurerm_automation_account.aa.name
   value                   = tobool(each.value.value)
+  encrypted               = try(each.value.encrypted, false)
+  description             = try(each.value.description, null)
 }
 
 resource "azurerm_automation_variable_datetime" "variables" {
@@ -141,6 +171,8 @@ resource "azurerm_automation_variable_datetime" "variables" {
   resource_group_name     = coalesce(lookup(var.config, "resource_group", null), var.resource_group)
   automation_account_name = azurerm_automation_account.aa.name
   value                   = each.value.value
+  encrypted               = try(each.value.encrypted, false)
+  description             = try(each.value.description, null)
 }
 
 resource "azurerm_automation_variable_object" "variables" {
@@ -157,4 +189,6 @@ resource "azurerm_automation_variable_object" "variables" {
   resource_group_name     = coalesce(lookup(var.config, "resource_group", null), var.resource_group)
   automation_account_name = azurerm_automation_account.aa.name
   value                   = jsonencode(each.value.value)
+  encrypted               = try(each.value.encrypted, false)
+  description             = try(each.value.description, null)
 }
