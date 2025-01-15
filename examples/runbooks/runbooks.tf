@@ -13,7 +13,7 @@ locals {
           frequency  = "Day"
           interval   = 1
           timezone   = "Etc/UTC"
-          start_time = "2025-01-01T00:00:00Z"
+          start_time = "2026-01-01T00:00:00Z"
           job_schedule_parameters = {
             resourcegroup = "rg-demo-dev"
             vmname        = "vm-demo-dev"
@@ -53,7 +53,7 @@ locals {
       }
       webhooks = {
         event = {
-          expiry_time = "2024-12-31T23:59:59Z"
+          expiry_time = "2026-12-31T23:59:59Z"
         }
       }
     }
