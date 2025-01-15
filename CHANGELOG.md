@@ -1,5 +1,16 @@
 # Changelog
 
+## [2.5.0](https://github.com/CloudNationHQ/terraform-azure-aa/compare/v2.4.1...v2.5.0) (2025-01-15)
+
+
+### Features
+
+* add hash support for automation modules, added encrypted capabilities to all variable objects and remove temporary files when deployment tests fails ([#35](https://github.com/CloudNationHQ/terraform-azure-aa/issues/35)) ([3a0c540](https://github.com/CloudNationHQ/terraform-azure-aa/commit/3a0c5405bef97d725aac91aac5b2299d58d643b7))
+* add private endpoint usage and updated documentation ([#39](https://github.com/CloudNationHQ/terraform-azure-aa/issues/39)) ([a22ec3e](https://github.com/CloudNationHQ/terraform-azure-aa/commit/a22ec3e386d942584a73d23b00938e5cf7ff74c1))
+* **deps:** bump github.com/gruntwork-io/terratest in /tests ([#34](https://github.com/CloudNationHQ/terraform-azure-aa/issues/34)) ([42500dd](https://github.com/CloudNationHQ/terraform-azure-aa/commit/42500ddf33193255d606d4a337694a95f127e357))
+* **deps:** bump golang.org/x/crypto from 0.29.0 to 0.31.0 in /tests ([#38](https://github.com/CloudNationHQ/terraform-azure-aa/issues/38)) ([a968fe3](https://github.com/CloudNationHQ/terraform-azure-aa/commit/a968fe32f4711f9bafd4838ba17515e5cda8cf43))
+* **deps:** bump golang.org/x/net from 0.31.0 to 0.33.0 in /tests ([#37](https://github.com/CloudNationHQ/terraform-azure-aa/issues/37)) ([011a74d](https://github.com/CloudNationHQ/terraform-azure-aa/commit/011a74dc0430eb0d2fba820991732b1107a6435d))
+
 ## [2.4.1](https://github.com/CloudNationHQ/terraform-azure-aa/compare/v2.4.0...v2.4.1) (2024-11-13)
 
 
