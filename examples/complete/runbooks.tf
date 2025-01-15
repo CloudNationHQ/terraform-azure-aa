@@ -13,7 +13,7 @@ locals {
           frequency  = "Day"
           interval   = 1
           timezone   = "Etc/UTC"
-          start_time = "2025-01-01T00:00:00Z"
+          start_time = "2026-01-01T00:00:00Z"
           job_schedule_parameters = {
             resourcegroup = "rg-demo-dev"
             vmname        = "vm-demo-dev"
@@ -23,7 +23,7 @@ locals {
           frequency  = "Week"
           interval   = 1
           timezone   = "Australia/Perth"
-          start_time = "2025-04-15T18:00:15+02:00"
+          start_time = "2026-04-15T18:00:15+02:00"
           week_days  = ["Friday"]
         }
       }
@@ -45,7 +45,7 @@ locals {
           frequency  = "Day"
           interval   = 1
           timezone   = "Europe/Amsterdam"
-          start_time = "2025-07-11T08:00:00+02:00"
+          start_time = "2026-07-11T08:00:00+02:00"
           job_schedule_parameters = {
             name = "admin"
           }
