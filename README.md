@@ -30,6 +30,7 @@ End-to-end testing is not conducted on these modules, as they are individual com
 - capability to add multiple modules, including both generic and powershell modules
 - ability to associate multiple runbooks with one or more schedules
 - dynamic type inference for automation variables
+- integrates seamlessly with private endpoint capabilities for direct and secure connectivity.
 
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
