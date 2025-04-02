@@ -19,6 +19,15 @@ resource "azurerm_automation_account" "aa" {
       )
     }
   }
+
+  dynamic "encryption" {
+    for_each = lookup(var.config, "encryption", null) != null ? [var.config.encryption] : []
+
+    content {
+      key_vault_key_id          = encryption.value.key_vault_key_id
+      user_assigned_identity_id = try(encryption.value.user_assigned_identity_id, null)
+    }
+  }
 }
 
 # user managed identity
