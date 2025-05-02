@@ -27,16 +27,6 @@ resource "azurerm_automation_account" "aa" {
   }
 }
 
-# user managed identity
-resource "azurerm_user_assigned_identity" "identity" {
-  for_each = contains(["UserAssigned", "SystemAssigned, UserAssigned"], try(var.config.identity.type, "")) ? { "identity" = var.config.identity } : {}
-
-  name                = try(each.value.name, "uai-${var.config.name}")
-  resource_group_name = coalesce(lookup(var.config, "resource_group", null), var.resource_group)
-  location            = coalesce(lookup(var.config, "location", null), var.location)
-  tags                = try(var.config.tags, var.tags, null)
-}
-
 # modules
 resource "azurerm_automation_module" "mod" {
   for_each = {
