@@ -9,14 +9,11 @@ resource "azurerm_automation_account" "aa" {
   tags                          = try(var.config.tags, var.tags, null)
 
   dynamic "identity" {
-    for_each = [lookup(var.config, "identity", { type = "SystemAssigned", identity_ids = [] })]
+    for_each = lookup(var.instance, "identity", null) != null ? [var.instance.identity] : []
 
     content {
-      type = identity.value.type
-      identity_ids = concat(
-        try([azurerm_user_assigned_identity.identity["identity"].id], []),
-        lookup(identity.value, "identity_ids", [])
-      )
+      type         = identity.value.type
+      identity_ids = identity.value.identity_ids
     }
   }
 
