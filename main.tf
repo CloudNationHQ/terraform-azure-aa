@@ -9,7 +9,7 @@ resource "azurerm_automation_account" "aa" {
   tags                          = try(var.config.tags, var.tags, null)
 
   dynamic "identity" {
-    for_each = lookup(var.instance, "identity", null) != null ? [var.instance.identity] : []
+    for_each = lookup(var.config, "identity", null) != null ? [var.config.identity] : []
 
     content {
       type         = identity.value.type
