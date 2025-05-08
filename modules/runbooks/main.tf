@@ -42,6 +42,18 @@ resource "azurerm_automation_runbook" "runbooks" {
       edit_mode_enabled = try(draft.value.edit_mode_enabled, null)
       output_types      = try(draft.value.output_types, null)
 
+      dynamic "parameters" {
+        for_each = lookup(draft.value, "parameters", {})
+
+        content {
+          key           = parameters.key
+          type          = parameters.value.type
+          mandatory     = try(parameters.value.mandatory, null)
+          position      = try(parameters.value.position, null)
+          default_value = try(parameters.value.default_value, null)
+        }
+      }
+
       dynamic "content_link" {
         for_each = contains(keys(draft.value), "content_link") ? [draft.value.content_link] : []
 
