@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.7.0](https://github.com/CloudNationHQ/terraform-azure-aa/compare/v2.6.0...v2.7.0) (2025-05-08)
+
+
+### Features
+
+* add missing functionality ([#45](https://github.com/CloudNationHQ/terraform-azure-aa/issues/45)) ([53000f3](https://github.com/CloudNationHQ/terraform-azure-aa/commit/53000f33e0dce4bce76c8cb4e57e8e15e206c947))
+* **deps:** bump golang.org/x/net from 0.36.0 to 0.38.0 in /tests ([#46](https://github.com/CloudNationHQ/terraform-azure-aa/issues/46)) ([b29d674](https://github.com/CloudNationHQ/terraform-azure-aa/commit/b29d6746cea10115fe6459d4a92d3141c358a8b5))
+
 ## [2.6.0](https://github.com/CloudNationHQ/terraform-azure-aa/compare/v2.5.0...v2.6.0) (2025-03-20)
 
 
