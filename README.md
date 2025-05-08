@@ -2,26 +2,6 @@
 
 This terraform module simplifies the process of creating and managing automation accounts on azure with customizable options and features, offering a flexible and powerful solution for managing azure automation through code.
 
-## Goals
-
-The main objective is to create a more logic data structure, achieved by combining and grouping related resources together in a complex object.
-
-The structure of the module promotes reusability. It's intended to be a repeatable component, simplifying the process of building diverse workloads and platform accelerators consistently.
-
-A primary goal is to utilize keys and values in the object that correspond to the REST API's structure. This enables us to carry out iterations, increasing its practical value as time goes on.
-
-A last key goal is to separate logic from configuration in the module, thereby enhancing its scalability, ease of customization, and manageability.
-
-## Non-Goals
-
-These modules are not intended to be complete, ready-to-use solutions; they are designed as components for creating your own patterns.
-
-They are not tailored for a single use case but are meant to be versatile and applicable to a range of scenarios.
-
-Security standardization is applied at the pattern level, while the modules include default values based on best practices but do not enforce specific security standards.
-
-End-to-end testing is not conducted on these modules, as they are individual components and do not undergo the extensive testing reserved for complete patterns or solutions.
-
 ## Features
 
 - support for multiple variable objects
@@ -59,7 +39,6 @@ End-to-end testing is not conducted on these modules, as they are individual com
 | [azurerm_automation_variable_int.variables](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/automation_variable_int) | resource |
 | [azurerm_automation_variable_object.variables](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/automation_variable_object) | resource |
 | [azurerm_automation_variable_string.variables](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/automation_variable_string) | resource |
-| [azurerm_user_assigned_identity.identity](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/user_assigned_identity) | resource |
 
 ## Inputs
 
@@ -78,6 +57,10 @@ End-to-end testing is not conducted on these modules, as they are individual com
 | <a name="output_config"></a> [config](#output\_config) | contains automation account details |
 <!-- END_TF_DOCS -->
 
+## Goals
+
+For more information, please see our [goals and non-goals](./GOALS.md).
+
 ## Testing
 
 For more information, please see our testing [guidelines](./TESTING.md)
@@ -90,15 +73,15 @@ Full examples detailing all usages, along with integrations with dependency modu
 
 To update the module's documentation run `make doc`
 
-## Authors
-
-Module is maintained by [these awesome contributors](https://github.com/cloudnationhq/terraform-azure-aa/graphs/contributors).
-
-## Contributing
+## Contributors
 
 We welcome contributions from the community! Whether it's reporting a bug, suggesting a new feature, or submitting a pull request, your input is highly valued.
 
-For more information, please see our contribution [guidelines](./CONTRIBUTING.md).
+For more information, please see our contribution [guidelines](./CONTRIBUTING.md). <br><br>
+
+<a href="https://github.com/cloudnationhq/terraform-azure-aa/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=cloudnationhq/terraform-azure-aa" />
+</a>
 
 ## License
 

@@ -9,26 +9,22 @@ resource "azurerm_automation_account" "aa" {
   tags                          = try(var.config.tags, var.tags, null)
 
   dynamic "identity" {
-    for_each = [lookup(var.config, "identity", { type = "SystemAssigned", identity_ids = [] })]
+    for_each = lookup(var.config, "identity", null) != null ? [var.config.identity] : []
 
     content {
-      type = identity.value.type
-      identity_ids = concat(
-        try([azurerm_user_assigned_identity.identity["identity"].id], []),
-        lookup(identity.value, "identity_ids", [])
-      )
+      type         = identity.value.type
+      identity_ids = identity.value.identity_ids
     }
   }
-}
 
-# user managed identity
-resource "azurerm_user_assigned_identity" "identity" {
-  for_each = contains(["UserAssigned", "SystemAssigned, UserAssigned"], try(var.config.identity.type, "")) ? { "identity" = var.config.identity } : {}
+  dynamic "encryption" {
+    for_each = lookup(var.config, "encryption", null) != null ? [var.config.encryption] : []
 
-  name                = try(each.value.name, "uai-${var.config.name}")
-  resource_group_name = coalesce(lookup(var.config, "resource_group", null), var.resource_group)
-  location            = coalesce(lookup(var.config, "location", null), var.location)
-  tags                = try(var.config.tags, var.tags, null)
+    content {
+      key_vault_key_id          = encryption.value.key_vault_key_id
+      user_assigned_identity_id = try(encryption.value.user_assigned_identity_id, null)
+    }
+  }
 }
 
 # modules
