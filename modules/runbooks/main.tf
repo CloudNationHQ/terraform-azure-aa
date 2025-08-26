@@ -1,31 +1,34 @@
 resource "azurerm_automation_runbook" "runbooks" {
   for_each = var.config
 
-  name                     = try(each.value.name, join("-", [var.naming.automation_runbook, each.key]))
-  resource_group_name      = coalesce(lookup(var.config, "resource_group", null), var.resource_group)
-  location                 = coalesce(lookup(var.config, "location", null), var.location)
-  automation_account_name  = coalesce(lookup(var.config, "automation_account", null), var.automation_account)
+  name = coalesce(
+    each.value.name, try(
+      join("-", [var.naming.automation_runbook, each.key]), null
+    ), each.key
+  )
+
+  resource_group_name      = var.resource_group_name
+  location                 = var.location
+  automation_account_name  = var.automation_account
   log_verbose              = each.value.log_verbose
   log_progress             = each.value.log_progress
-  description              = try(each.value.description, null)
+  description              = each.value.description
   runbook_type             = each.value.runbook_type
-  content                  = try(each.value.content, null)
-  log_activity_trace_level = try(each.value.log_activity_trace_level, null)
+  content                  = each.value.content
+  log_activity_trace_level = each.value.log_activity_trace_level
 
-  tags = try(
-    var.config.tags, var.tags, null
-  )
+  tags = var.tags
 
 
   dynamic "publish_content_link" {
-    for_each = contains(keys(each.value), "publish_content_link") ? [each.value.publish_content_link] : []
+    for_each = each.value.publish_content_link != null ? [each.value.publish_content_link] : []
 
     content {
       uri     = publish_content_link.value.uri
-      version = try(publish_content_link.value.version, null)
+      version = publish_content_link.value.version
 
       dynamic "hash" {
-        for_each = lookup(publish_content_link.value, "hash", null) != null ? [publish_content_link.value.hash] : []
+        for_each = publish_content_link.value.hash != null ? [publish_content_link.value.hash] : []
 
         content {
           algorithm = hash.value.algorithm
@@ -36,33 +39,33 @@ resource "azurerm_automation_runbook" "runbooks" {
   }
 
   dynamic "draft" {
-    for_each = contains(keys(each.value), "draft") ? [each.value.draft] : []
+    for_each = each.value.draft != null ? [each.value.draft] : []
 
     content {
-      edit_mode_enabled = try(draft.value.edit_mode_enabled, null)
-      output_types      = try(draft.value.output_types, null)
+      edit_mode_enabled = draft.value.edit_mode_enabled
+      output_types      = draft.value.output_types
 
       dynamic "parameters" {
-        for_each = lookup(draft.value, "parameters", {})
+        for_each = draft.value.parameters != null ? draft.value.parameters : {}
 
         content {
           key           = parameters.key
           type          = parameters.value.type
-          mandatory     = try(parameters.value.mandatory, null)
-          position      = try(parameters.value.position, null)
-          default_value = try(parameters.value.default_value, null)
+          mandatory     = parameters.value.mandatory
+          position      = parameters.value.position
+          default_value = parameters.value.default_value
         }
       }
 
       dynamic "content_link" {
-        for_each = contains(keys(draft.value), "content_link") ? [draft.value.content_link] : []
+        for_each = draft.value.content_link != null ? [draft.value.content_link] : []
 
         content {
           uri     = content_link.value.uri
-          version = try(content_link.value.version, null)
+          version = content_link.value.version
 
           dynamic "hash" {
-            for_each = lookup(content_link.value, "hash", null) != null ? [content_link.value.hash] : []
+            for_each = content_link.value.hash != null ? [content_link.value.hash] : []
 
             content {
               algorithm = hash.value.algorithm
@@ -84,7 +87,7 @@ resource "azurerm_automation_runbook" "runbooks" {
 resource "azurerm_automation_schedule" "schedules" {
   for_each = merge([
     for runbook_key, runbook in var.config : {
-      for schedule_key, schedule in try(runbook.schedules, {}) :
+      for schedule_key, schedule in(runbook.schedules != null ? runbook.schedules : {}) :
       "${runbook_key}-${schedule_key}" => merge(schedule, {
         runbook_key  = runbook_key
         schedule_key = schedule_key
@@ -92,20 +95,20 @@ resource "azurerm_automation_schedule" "schedules" {
     }
   ]...)
 
-  name                    = try(each.value.name, join("-", [var.naming.automation_schedule, each.key]))
-  resource_group_name     = var.resource_group
+  name                    = coalesce(each.value.name, join("-", [var.naming.automation_schedule, each.key]))
+  resource_group_name     = var.resource_group_name
   automation_account_name = var.automation_account
   frequency               = each.value.frequency
   interval                = each.value.interval
   timezone                = each.value.timezone
   start_time              = each.value.start_time
-  description             = try(each.value.description, null)
-  week_days               = try(each.value.week_days, null)
-  month_days              = try(each.value.month_days, null)
-  expiry_time             = try(each.value.expiry_time, null)
+  description             = each.value.description
+  week_days               = each.value.week_days
+  month_days              = each.value.month_days
+  expiry_time             = each.value.expiry_time
 
   dynamic "monthly_occurrence" {
-    for_each = lookup(each.value, "monthly_occurrence", null) != null ? [each.value.monthly_occurrence] : []
+    for_each = each.value.monthly_occurrence != null ? [each.value.monthly_occurrence] : []
 
     content {
       occurrence = monthly_occurrence.value.occurrence
@@ -118,7 +121,7 @@ resource "azurerm_automation_schedule" "schedules" {
 resource "azurerm_automation_job_schedule" "job_schedules" {
   for_each = merge([
     for runbook_key, runbook in var.config : {
-      for schedule_key, schedule in try(runbook.schedules, {}) :
+      for schedule_key, schedule in(runbook.schedules != null ? runbook.schedules : {}) :
       "${runbook_key}-${schedule_key}" => merge(schedule, {
         runbook_key  = runbook_key
         schedule_key = schedule_key
@@ -126,18 +129,18 @@ resource "azurerm_automation_job_schedule" "job_schedules" {
     }
   ]...)
 
-  resource_group_name     = var.resource_group
+  resource_group_name     = var.resource_group_name
   automation_account_name = var.automation_account
   schedule_name           = azurerm_automation_schedule.schedules[each.key].name
   runbook_name            = azurerm_automation_runbook.runbooks[each.value.runbook_key].name
-  parameters              = try(each.value.job_schedule_parameters, null)
-  run_on                  = try(each.value.run_on, null)
+  parameters              = each.value.job_schedule_parameters
+  run_on                  = each.value.run_on
 }
 
 resource "azurerm_automation_webhook" "webhooks" {
   for_each = merge([
     for runbook_key, runbook in var.config : {
-      for webhook_key, webhook in try(runbook.webhooks, {}) :
+      for webhook_key, webhook in(runbook.webhooks != null ? runbook.webhooks : {}) :
       "${runbook_key}-${webhook_key}" => merge(webhook, {
         runbook_key = runbook_key
         webhook_key = webhook_key
@@ -145,13 +148,13 @@ resource "azurerm_automation_webhook" "webhooks" {
     }
   ]...)
 
-  name                    = try(each.value.name, join("-", [var.naming.automation_webhook, each.key]))
-  resource_group_name     = coalesce(lookup(var.config, "resource_group", null), var.resource_group)
+  name                    = coalesce(each.value.name, join("-", [var.naming.automation_webhook, each.key]))
+  resource_group_name     = var.resource_group_name
   automation_account_name = var.automation_account
   runbook_name            = azurerm_automation_runbook.runbooks[each.value.runbook_key].name
   expiry_time             = each.value.expiry_time
-  enabled                 = try(each.value.enabled, true)
-  run_on_worker_group     = try(each.value.run_on_worker_group, null)
-  parameters              = try(each.value.parameters, null)
-  uri                     = try(each.value.uri, null)
+  enabled                 = each.value.enabled
+  run_on_worker_group     = each.value.run_on_worker_group
+  parameters              = each.value.parameters
+  uri                     = each.value.uri
 }

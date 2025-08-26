@@ -1,18 +1,4 @@
-# Private Endpoint
-
 This deploys private endpoint for automation accounts
-
-## Types
-
-```hcl
-config = object({
-  name           = string
-  location       = string
-  resource_group = string
-
-  public_network_access_enabled = optional(bool)
-})
-```
 
 ## Notes
 

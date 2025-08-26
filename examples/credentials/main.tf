@@ -1,6 +1,6 @@
 module "naming" {
   source  = "cloudnationhq/naming/azure"
-  version = "~> 0.1"
+  version = "~> 0.24"
 
   suffix = ["demo", "dev"]
 }
@@ -19,14 +19,14 @@ module "rg" {
 
 module "kv" {
   source  = "cloudnationhq/kv/azure"
-  version = "~> 2.0"
+  version = "~> 4.0"
 
   naming = local.naming
 
   vault = {
-    name           = module.naming.key_vault.name_unique
-    location       = module.rg.groups.demo.location
-    resource_group = module.rg.groups.demo.name
+    name                = module.naming.key_vault.name_unique
+    location            = module.rg.groups.demo.location
+    resource_group_name = module.rg.groups.demo.name
 
     secrets = {
       random_string = {
@@ -41,14 +41,14 @@ module "kv" {
 
 module "automation_account" {
   source  = "cloudnationhq/aa/azure"
-  version = "~> 2.0"
+  version = "~> 3.0"
 
   naming = local.naming
 
   config = {
-    name           = module.naming.automation_account.name_unique
-    resource_group = module.rg.groups.demo.name
-    location       = module.rg.groups.demo.location
+    name                = module.naming.automation_account.name_unique
+    resource_group_name = module.rg.groups.demo.name
+    location            = module.rg.groups.demo.location
 
     credentials = {
       admin = {
