@@ -4,13 +4,19 @@ This terraform module simplifies the process of creating and managing automation
 
 ## Features
 
-- support for multiple variable objects
-- ability to have multiple credentials for versatile access management
-- utilization of terratest for robust validation
-- capability to add multiple modules, including both generic and powershell modules
-- ability to associate multiple runbooks with one or more schedules
-- dynamic type inference for automation variables
-- integrates seamlessly with private endpoint capabilities for direct and secure connectivity.
+Support for multiple variable objects
+
+Ability to have multiple credentials for versatile access management
+
+Utilization of terratest for robust validation
+
+Capability to add multiple modules, including both generic and powershell modules
+
+Ability to associate multiple runbooks with one or more schedules
+
+Dynamic type inference for automation variables
+
+Integrates seamlessly with private endpoint capabilities for direct and secure connectivity.
 
 <!-- BEGIN_TF_DOCS -->
 ## Requirements
