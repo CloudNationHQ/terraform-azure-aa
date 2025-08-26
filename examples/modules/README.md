@@ -1,20 +1,4 @@
-# Modules
-
 This deploys one or more modules within the automation account
-
-## Types
-
-```hcl
-config = object({
-  name          = string
-  resourcegroup = string
-  location      = string
-  modules = optional(map(object({
-    uri  = string
-    type = optional(string)
-  })))
-})
-```
 
 ## Notes
 

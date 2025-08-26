@@ -1,20 +1,4 @@
-# Variables
-
 This deploys one or more variables within the automation account
-
-## Types
-
-```hcl
-config = object({
-  name          = string
-  resourcegroup = string
-  location      = string
-  variables = optional(map(object({
-    name  = optional(string)
-    value = any
-  })))
-})
-```
 
 ## Notes
 

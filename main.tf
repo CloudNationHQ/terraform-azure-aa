@@ -1,12 +1,25 @@
 # automation account
 resource "azurerm_automation_account" "aa" {
+  resource_group_name = coalesce(
+    lookup(
+      var.config, "resource_group_name", null
+    ), var.resource_group_name
+  )
+
+  location = coalesce(
+    lookup(
+      var.config, "location", null
+    ), var.location
+  )
+
   name                          = var.config.name
-  resource_group_name           = coalesce(lookup(var.config, "resource_group", null), var.resource_group)
-  location                      = coalesce(lookup(var.config, "location", null), var.location)
-  sku_name                      = try(var.config.sku_name, "Basic")
-  local_authentication_enabled  = try(var.config.local_authentication_enabled, true)
-  public_network_access_enabled = try(var.config.public_network_access_enabled, true)
-  tags                          = try(var.config.tags, var.tags, null)
+  sku_name                      = var.config.sku_name
+  local_authentication_enabled  = var.config.local_authentication_enabled
+  public_network_access_enabled = var.config.public_network_access_enabled
+
+  tags = coalesce(
+    var.config.tags, var.tags
+  )
 
   dynamic "identity" {
     for_each = lookup(var.config, "identity", null) != null ? [var.config.identity] : []
@@ -22,7 +35,7 @@ resource "azurerm_automation_account" "aa" {
 
     content {
       key_vault_key_id          = encryption.value.key_vault_key_id
-      user_assigned_identity_id = try(encryption.value.user_assigned_identity_id, null)
+      user_assigned_identity_id = encryption.value.user_assigned_identity_id
     }
   }
 }
@@ -30,12 +43,20 @@ resource "azurerm_automation_account" "aa" {
 # modules
 resource "azurerm_automation_module" "mod" {
   for_each = {
-    for module_name, module_info in try(var.config.modules, {}) : module_name => module_info
+    for module_name, module_info in var.config.modules : module_name => module_info
     if !(lookup(module_info, "type", "") == "powershell72")
   }
 
-  name                    = try(each.value.name, each.key)
-  resource_group_name     = coalesce(lookup(var.config, "resource_group", null), var.resource_group)
+  resource_group_name = coalesce(
+    lookup(
+      var.config, "resource_group_name", null
+    ), var.resource_group_name
+  )
+
+  name = coalesce(
+    each.value.name, each.key
+  )
+
   automation_account_name = azurerm_automation_account.aa.name
 
   module_link {
@@ -55,15 +76,18 @@ resource "azurerm_automation_module" "mod" {
 
 resource "azurerm_automation_powershell72_module" "modpwsh72" {
   for_each = {
-    for module_name, module_info in try(var.config.modules, {}) : module_name => module_info
+    for module_name, module_info in var.config.modules : module_name => module_info
     if lookup(module_info, "type", "") == "powershell72"
   }
 
-  name                  = try(each.value.name, each.key)
+  name = coalesce(
+    each.value.name, each.key
+  )
+
   automation_account_id = azurerm_automation_account.aa.id
 
-  tags = try(
-    var.config.tags, var.tags, null
+  tags = coalesce(
+    var.config.tags, var.tags
   )
 
   module_link {
@@ -83,24 +107,38 @@ resource "azurerm_automation_powershell72_module" "modpwsh72" {
 
 # credentials
 resource "azurerm_automation_credential" "creds" {
-  for_each = lookup(
-    var.config, "credentials", {}
+  for_each = var.config.credentials
+
+  resource_group_name = coalesce(
+    lookup(
+      var.config, "resource_group_name", null
+    ), var.resource_group_name
   )
 
-  name                    = try(each.value.name, join("-", [var.naming.automation_credential, each.key]))
-  resource_group_name     = coalesce(lookup(var.config, "resource_group", null), var.resource_group)
+  name = coalesce(
+    each.value.name, try(
+      join("-", [var.naming.automation_credential, each.key]), null
+    ), each.key
+  )
+
   automation_account_name = azurerm_automation_account.aa.name
   username                = each.value.username
   password                = each.value.password
-  description             = try(each.value.description, null)
+  description             = each.value.description
 }
 
 # variable objects
 resource "azurerm_automation_variable_string" "variables" {
   for_each = {
-    for key, value in try(var.config.variables, {}) : key => {
-      name  = try(value.name, join("-", [var.naming.automation_variable, key]))
-      value = value.value
+    for key, value in var.config.variables : key => {
+      value       = value.value
+      encrypted   = try(value.encrypted, false)
+      description = try(value.description, null)
+      name = coalesce(
+        try(value.name, null), try(
+          join("-", [var.naming.automation_variable, key]), null
+        ), key
+      )
     }
 
     if !can(tobool(value.value)) &&
@@ -109,82 +147,132 @@ resource "azurerm_automation_variable_string" "variables" {
     !(can(jsonencode(value.value)) && !can(tostring(value.value)))
   }
 
-  name                    = each.value.name
-  resource_group_name     = coalesce(lookup(var.config, "resource_group", null), var.resource_group)
+  resource_group_name = coalesce(
+    lookup(
+      var.config, "resource_group_name", null
+    ), var.resource_group_name
+  )
+
+  name = each.value.name
+
   automation_account_name = azurerm_automation_account.aa.name
   value                   = tostring(each.value.value)
-  encrypted               = try(each.value.encrypted, false)
-  description             = try(each.value.description, null)
+  encrypted               = each.value.encrypted
+  description             = each.value.description
 }
 
 resource "azurerm_automation_variable_int" "variables" {
   for_each = {
-    for key, value in try(var.config.variables, {}) : key => {
-      name  = try(value.name, join("-", [var.naming.automation_variable, key]))
-      value = value.value
+    for key, value in var.config.variables : key => {
+      value       = value.value
+      encrypted   = try(value.encrypted, false)
+      description = try(value.description, null)
+      name = coalesce(
+        try(value.name, null), try(
+          join("-", [var.naming.automation_variable, key]), null
+        ), key
+      )
     }
 
     if can(tonumber(value.value)) && !can(tobool(value.value))
   }
 
+  resource_group_name = coalesce(
+    lookup(
+      var.config, "resource_group_name", null
+    ), var.resource_group_name
+  )
+
   name                    = each.value.name
-  resource_group_name     = coalesce(lookup(var.config, "resource_group", null), var.resource_group)
   automation_account_name = azurerm_automation_account.aa.name
   value                   = tonumber(each.value.value)
-  encrypted               = try(each.value.encrypted, false)
-  description             = try(each.value.description, null)
+  encrypted               = each.value.encrypted
+  description             = each.value.description
 }
 
 resource "azurerm_automation_variable_bool" "variables" {
   for_each = {
-    for key, value in try(var.config.variables, {}) : key => {
-      name  = try(value.name, join("-", [var.naming.automation_variable, key]))
-      value = value.value
+    for key, value in var.config.variables : key => {
+      value       = value.value
+      encrypted   = try(value.encrypted, false)
+      description = try(value.description, null)
+      name = coalesce(
+        try(value.name, null), try(
+          join("-", [var.naming.automation_variable, key]), null
+        ), key
+      )
     }
 
     if can(tobool(value.value))
   }
 
+  resource_group_name = coalesce(
+    lookup(
+      var.config, "resource_group_name", null
+    ), var.resource_group_name
+  )
+
   name                    = each.value.name
-  resource_group_name     = coalesce(lookup(var.config, "resource_group", null), var.resource_group)
   automation_account_name = azurerm_automation_account.aa.name
   value                   = tobool(each.value.value)
-  encrypted               = try(each.value.encrypted, false)
-  description             = try(each.value.description, null)
+  encrypted               = each.value.encrypted
+  description             = each.value.description
 }
 
 resource "azurerm_automation_variable_datetime" "variables" {
   for_each = {
-    for key, value in try(var.config.variables, {}) : key => {
-      name  = try(value.name, join("-", [var.naming.automation_variable, key]))
-      value = value.value
+    for key, value in var.config.variables : key => {
+      value       = value.value
+      encrypted   = try(value.encrypted, false)
+      description = try(value.description, null)
+      name = coalesce(
+        try(value.name, null), try(
+          join("-", [var.naming.automation_variable, key]), null
+        ), key
+      )
     }
 
     if can(regex("^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d+)?(Z|[+-]\\d{2}:\\d{2})$", tostring(value.value)))
   }
 
+  resource_group_name = coalesce(
+    lookup(
+      var.config, "resource_group_name", null
+    ), var.resource_group_name
+  )
+
   name                    = each.value.name
-  resource_group_name     = coalesce(lookup(var.config, "resource_group", null), var.resource_group)
   automation_account_name = azurerm_automation_account.aa.name
   value                   = each.value.value
-  encrypted               = try(each.value.encrypted, false)
-  description             = try(each.value.description, null)
+  encrypted               = each.value.encrypted
+  description             = each.value.description
 }
 
 resource "azurerm_automation_variable_object" "variables" {
   for_each = {
-    for key, value in try(var.config.variables, {}) : key => {
-      name  = try(value.name, join("-", [var.naming.automation_variable, key]))
-      value = value.value
+    for key, value in var.config.variables : key => {
+      value       = value.value
+      encrypted   = try(value.encrypted, false)
+      description = try(value.description, null)
+      name = coalesce(
+        try(value.name, null), try(
+          join("-", [var.naming.automation_variable, key]), null
+        ), key
+      )
     }
 
     if can(jsonencode(value.value)) && !can(tostring(value.value))
   }
 
+  resource_group_name = coalesce(
+    lookup(
+      var.config, "resource_group_name", null
+    ), var.resource_group_name
+  )
+
   name                    = each.value.name
-  resource_group_name     = coalesce(lookup(var.config, "resource_group", null), var.resource_group)
   automation_account_name = azurerm_automation_account.aa.name
   value                   = jsonencode(each.value.value)
-  encrypted               = try(each.value.encrypted, false)
-  description             = try(each.value.description, null)
+  encrypted               = each.value.encrypted
+  description             = each.value.description
 }
