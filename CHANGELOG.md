@@ -11,6 +11,11 @@
 
 * small refactor and changed data structure ([#53](https://github.com/CloudNationHQ/terraform-azure-aa/issues/53)) ([86b46f9](https://github.com/CloudNationHQ/terraform-azure-aa/commit/86b46f9a05a804721b41930b1dcb1c73dbcd314f))
 
+### Upgrade from v2.7.0 to v3.0.0:
+
+- Update module reference to: `version = "~> 3.0"`
+- The property and variable resource_group is renamed to resource_group_name
+
 ## [2.7.0](https://github.com/CloudNationHQ/terraform-azure-aa/compare/v2.6.0...v2.7.0) (2025-05-08)
 
 
