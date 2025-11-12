@@ -68,26 +68,26 @@ object({
     tags                          = optional(map(string))
     identity = optional(object({
       type         = string
-      identity_ids = optional(list(string), null)
-    }), null)
+      identity_ids = optional(list(string))
+    }))
     encryption = optional(object({
       key_vault_key_id          = string
-      user_assigned_identity_id = optional(string, null)
-    }), null)
+      user_assigned_identity_id = optional(string)
+    }))
     modules = optional(map(object({
       uri  = string
-      name = optional(string, null)
-      type = optional(string, null)
+      name = optional(string)
+      type = optional(string)
       hash = optional(object({
         algorithm = string
         value     = string
-      }), null)
+      }))
     })), {})
     credentials = optional(map(object({
       username    = string
       password    = string
-      name        = optional(string, null)
-      description = optional(string, null)
+      name        = optional(string)
+      description = optional(string)
     })), {})
     variables = optional(any, {})
   })
