@@ -1,5 +1,13 @@
 # Changelog
 
+## [3.1.0](https://github.com/CloudNationHQ/terraform-azure-aa/compare/v3.0.0...v3.1.0) (2025-11-12)
+
+
+### Features
+
+* **deps:** bump github.com/ulikunitz/xz from 0.5.10 to 0.5.14 in /tests ([#55](https://github.com/CloudNationHQ/terraform-azure-aa/issues/55)) ([d48e3bc](https://github.com/CloudNationHQ/terraform-azure-aa/commit/d48e3bcedeea4dcb8533f14a07773cbf1d7b4eac))
+* remove redundant null values and version increment examples ([#60](https://github.com/CloudNationHQ/terraform-azure-aa/issues/60)) ([c0a073d](https://github.com/CloudNationHQ/terraform-azure-aa/commit/c0a073dae3d2085eadf8095eaa7f74edb764749f))
+
 ## [3.0.0](https://github.com/CloudNationHQ/terraform-azure-aa/compare/v2.7.0...v3.0.0) (2025-08-26)
 
 
