@@ -136,6 +136,38 @@ The following outputs are exported:
 ### <a name="output_config"></a> [config](#output\_config)
 
 Description: contains automation account details
+
+### <a name="output_credentials"></a> [credentials](#output\_credentials)
+
+Description: contains automation credential details
+
+### <a name="output_modules"></a> [modules](#output\_modules)
+
+Description: contains automation module details
+
+### <a name="output_powershell72_modules"></a> [powershell72\_modules](#output\_powershell72\_modules)
+
+Description: contains automation powershell 7.2 module details
+
+### <a name="output_variables_bool"></a> [variables\_bool](#output\_variables\_bool)
+
+Description: contains automation bool variable details
+
+### <a name="output_variables_datetime"></a> [variables\_datetime](#output\_variables\_datetime)
+
+Description: contains automation datetime variable details
+
+### <a name="output_variables_int"></a> [variables\_int](#output\_variables\_int)
+
+Description: contains automation int variable details
+
+### <a name="output_variables_object"></a> [variables\_object](#output\_variables\_object)
+
+Description: contains automation object variable details
+
+### <a name="output_variables_string"></a> [variables\_string](#output\_variables\_string)
+
+Description: contains automation string variable details
 <!-- END_TF_DOCS -->
 
 ## Goals
