@@ -1,5 +1,14 @@
 # Changelog
 
+## [3.2.0](https://github.com/CloudNationHQ/terraform-azure-aa/compare/v3.1.0...v3.2.0) (2026-04-03)
+
+
+### Features
+
+* add missing outputs ([#65](https://github.com/CloudNationHQ/terraform-azure-aa/issues/65)) ([af9d9e7](https://github.com/CloudNationHQ/terraform-azure-aa/commit/af9d9e7e341084a0b2246bc58a35d100915fd7eb))
+* **deps:** bump github.com/cloudnationhq/az-cn-go-validor in /tests ([#64](https://github.com/CloudNationHQ/terraform-azure-aa/issues/64)) ([9e8eea2](https://github.com/CloudNationHQ/terraform-azure-aa/commit/9e8eea2746a70da0e74afe34c727506a1725a513))
+* **deps:** bump golang.org/x/crypto from 0.36.0 to 0.45.0 in /tests ([#62](https://github.com/CloudNationHQ/terraform-azure-aa/issues/62)) ([7030343](https://github.com/CloudNationHQ/terraform-azure-aa/commit/7030343da7d61248fb9ebd82d7575acc71e9fd80))
+
 ## [3.1.0](https://github.com/CloudNationHQ/terraform-azure-aa/compare/v3.0.0...v3.1.0) (2025-11-12)
 
 
