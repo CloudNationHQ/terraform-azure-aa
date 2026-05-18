@@ -1,5 +1,14 @@
 # Changelog
 
+## [3.3.0](https://github.com/CloudNationHQ/terraform-azure-aa/compare/v3.2.0...v3.3.0) (2026-05-18)
+
+
+### Features
+
+* add runtime_environment_name and job_schedule_id to runbooks submodule ([#70](https://github.com/CloudNationHQ/terraform-azure-aa/issues/70)) ([10cc78d](https://github.com/CloudNationHQ/terraform-azure-aa/commit/10cc78d294d652c212e84a9a354b9d783001690b))
+* **deps:** bump github.com/cloudnationhq/az-cn-go-validor in /tests ([#67](https://github.com/CloudNationHQ/terraform-azure-aa/issues/67)) ([a969ae1](https://github.com/CloudNationHQ/terraform-azure-aa/commit/a969ae127309c4b3327a6e20d9801949f28af8b5))
+* **deps:** bump github.com/cloudnationhq/az-cn-go-validor in /tests ([#69](https://github.com/CloudNationHQ/terraform-azure-aa/issues/69)) ([7342b93](https://github.com/CloudNationHQ/terraform-azure-aa/commit/7342b938349e4e5531e6da46c0ce99dc17294bfb))
+
 ## [3.2.0](https://github.com/CloudNationHQ/terraform-azure-aa/compare/v3.1.0...v3.2.0) (2026-04-03)
 
 
