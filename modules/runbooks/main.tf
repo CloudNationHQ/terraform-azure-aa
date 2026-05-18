@@ -16,6 +16,7 @@ resource "azurerm_automation_runbook" "runbooks" {
   runbook_type             = each.value.runbook_type
   content                  = each.value.content
   log_activity_trace_level = each.value.log_activity_trace_level
+  runtime_environment_name = each.value.runtime_environment_name
 
   tags = var.tags
 
@@ -135,6 +136,7 @@ resource "azurerm_automation_job_schedule" "job_schedules" {
   runbook_name            = azurerm_automation_runbook.runbooks[each.value.runbook_key].name
   parameters              = each.value.job_schedule_parameters
   run_on                  = each.value.run_on
+  job_schedule_id         = each.value.job_schedule_id
 }
 
 resource "azurerm_automation_webhook" "webhooks" {
