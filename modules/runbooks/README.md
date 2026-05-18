@@ -42,6 +42,7 @@ map(object({
     description              = optional(string)
     content                  = optional(string)
     log_activity_trace_level = optional(number)
+    runtime_environment_name = optional(string)
     runbook_type             = string
     log_verbose              = bool
     log_progress             = bool
@@ -87,6 +88,7 @@ map(object({
       }))
       job_schedule_parameters = optional(map(string))
       run_on                  = optional(string)
+      job_schedule_id         = optional(string)
     })))
     webhooks = optional(map(object({
       expiry_time         = string
