@@ -7,7 +7,7 @@ module "naming" {
 
 module "rg" {
   source  = "cloudnationhq/rg/azure"
-  version = "~> 2.0"
+  version = "~> 3.0"
 
   groups = {
     demo = {
@@ -19,22 +19,20 @@ module "rg" {
 
 module "runbooks" {
   source  = "cloudnationhq/aa/azure//modules/runbooks"
-  version = "~> 3.0"
-
-  naming = local.naming
+  version = "~> 4.0"
 
   resource_group_name = module.rg.groups.demo.name
   location            = module.rg.groups.demo.location
-  automation_account  = module.automation_account.config.name
+  automation_account  = module.automation_account.account.name
 
-  config = local.runbooks
+  runbooks = local.runbooks
 }
 
 module "automation_account" {
   source  = "cloudnationhq/aa/azure"
-  version = "~> 3.0"
+  version = "~> 4.0"
 
-  config = {
+  account = {
     name                = module.naming.automation_account.name_unique
     resource_group_name = module.rg.groups.demo.name
     location            = module.rg.groups.demo.location
