@@ -3,6 +3,11 @@ output "account" {
   value       = azurerm_automation_account.this
 }
 
+output "private_endpoints" {
+  description = "private endpoint configuration specifics"
+  value       = azurerm_private_endpoint.this
+}
+
 output "modules" {
   description = "contains automation module details"
   value       = azurerm_automation_module.this

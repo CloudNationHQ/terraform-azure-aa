@@ -46,6 +46,7 @@ The following resources are used by this module:
 - [azurerm_automation_variable_int.this](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/automation_variable_int) (resource)
 - [azurerm_automation_variable_object.this](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/automation_variable_object) (resource)
 - [azurerm_automation_variable_string.this](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/automation_variable_string) (resource)
+- [azurerm_private_endpoint.this](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/private_endpoint) (resource)
 
 ## Required Inputs
 
@@ -90,6 +91,25 @@ object({
       description = optional(string)
     })), {})
     variables = optional(any, {})
+    private_endpoints = optional(map(object({
+      name                              = optional(string)
+      subnet_resource_id                = string
+      subresource_name                  = optional(string)
+      private_dns_zone_resource_ids     = optional(list(string))
+      private_dns_zone_group_name       = optional(string)
+      custom_network_interface_name     = optional(string)
+      tags                              = optional(map(string))
+      private_service_connection_name   = optional(string)
+      private_connection_resource_alias = optional(string)
+      is_manual_connection              = optional(bool)
+      request_message                   = optional(string)
+      ip_configurations = optional(map(object({
+        name               = optional(string)
+        private_ip_address = optional(string)
+        member_name        = optional(string)
+        subresource_name   = optional(string)
+      })))
+    })))
   })
 ```
 
@@ -140,6 +160,10 @@ Description: contains automation module details
 ### <a name="output_powershell72_modules"></a> [powershell72\_modules](#output\_powershell72\_modules)
 
 Description: contains automation powershell 7.2 module details
+
+### <a name="output_private_endpoints"></a> [private\_endpoints](#output\_private\_endpoints)
+
+Description: private endpoint configuration specifics
 
 ### <a name="output_variables_bool"></a> [variables\_bool](#output\_variables\_bool)
 
