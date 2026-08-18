@@ -40,7 +40,7 @@ variable "runbooks" {
       frequency   = string
       interval    = number
       timezone    = string
-      start_time  = string
+      start_time  = optional(string)
       name        = optional(string)
       description = optional(string)
       week_days   = optional(list(string))
