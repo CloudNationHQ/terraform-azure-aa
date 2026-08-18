@@ -64,8 +64,8 @@ object({
     resource_group_name           = optional(string)
     location                      = optional(string)
     sku_name                      = optional(string, "Basic")
-    local_authentication_enabled  = optional(bool, true)
-    public_network_access_enabled = optional(bool, true)
+    local_authentication_enabled  = optional(bool)
+    public_network_access_enabled = optional(bool)
     tags                          = optional(map(string))
     identity = optional(object({
       type         = string

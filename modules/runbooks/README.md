@@ -93,7 +93,7 @@ map(object({
     webhooks = optional(map(object({
       expiry_time         = string
       name                = optional(string)
-      enabled             = optional(bool, true)
+      enabled             = optional(bool)
       run_on_worker_group = optional(string)
       parameters          = optional(map(string))
       uri                 = optional(string)
