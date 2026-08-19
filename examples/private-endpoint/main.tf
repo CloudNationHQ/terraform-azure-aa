@@ -67,13 +67,28 @@ module "automation_account" {
     location            = module.rg.groups.demo.location
 
     public_network_access_enabled = false
+  }
+}
 
-    private_endpoints = {
-      automation = {
-        name               = module.naming.private_endpoint.name
-        subnet_resource_id = module.network.subnets.sn1.id
+module "privatelink" {
+  source  = "cloudnationhq/pe/azure"
+  version = "~> 2.0"
 
-        private_dns_zone_resource_ids = [module.private_dns.private_zones.automation.id]
+  resource_group_name = module.rg.groups.demo.name
+  location            = module.rg.groups.demo.location
+
+  endpoints = {
+    automation = {
+      name      = module.naming.private_endpoint.name
+      subnet_id = module.network.subnets.sn1.id
+
+      private_dns_zone_group = {
+        private_dns_zone_ids = [module.private_dns.private_zones.automation.id]
+      }
+
+      private_service_connection = {
+        private_connection_resource_id = module.automation_account.account.id
+        subresource_names              = ["DSCAndHybridWorker"]
       }
     }
   }
