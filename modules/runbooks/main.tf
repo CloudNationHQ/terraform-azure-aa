@@ -1,11 +1,7 @@
-resource "azurerm_automation_runbook" "runbooks" {
-  for_each = var.config
+resource "azurerm_automation_runbook" "this" {
+  for_each = var.runbooks
 
-  name = coalesce(
-    each.value.name, try(
-      join("-", [var.naming.automation_runbook, each.key]), null
-    ), each.key
-  )
+  name = coalesce(each.value.name, each.key)
 
   resource_group_name      = var.resource_group_name
   location                 = var.location
@@ -85,9 +81,9 @@ resource "azurerm_automation_runbook" "runbooks" {
 }
 
 # schedules
-resource "azurerm_automation_schedule" "schedules" {
+resource "azurerm_automation_schedule" "this" {
   for_each = merge([
-    for runbook_key, runbook in var.config : {
+    for runbook_key, runbook in var.runbooks : {
       for schedule_key, schedule in(runbook.schedules != null ? runbook.schedules : {}) :
       "${runbook_key}-${schedule_key}" => merge(schedule, {
         runbook_key  = runbook_key
@@ -96,7 +92,7 @@ resource "azurerm_automation_schedule" "schedules" {
     }
   ]...)
 
-  name                    = coalesce(each.value.name, join("-", [var.naming.automation_schedule, each.key]))
+  name                    = coalesce(each.value.name, each.key)
   resource_group_name     = var.resource_group_name
   automation_account_name = var.automation_account
   frequency               = each.value.frequency
@@ -119,9 +115,9 @@ resource "azurerm_automation_schedule" "schedules" {
 }
 
 # Job Schedules
-resource "azurerm_automation_job_schedule" "job_schedules" {
+resource "azurerm_automation_job_schedule" "this" {
   for_each = merge([
-    for runbook_key, runbook in var.config : {
+    for runbook_key, runbook in var.runbooks : {
       for schedule_key, schedule in(runbook.schedules != null ? runbook.schedules : {}) :
       "${runbook_key}-${schedule_key}" => merge(schedule, {
         runbook_key  = runbook_key
@@ -132,16 +128,16 @@ resource "azurerm_automation_job_schedule" "job_schedules" {
 
   resource_group_name     = var.resource_group_name
   automation_account_name = var.automation_account
-  schedule_name           = azurerm_automation_schedule.schedules[each.key].name
-  runbook_name            = azurerm_automation_runbook.runbooks[each.value.runbook_key].name
+  schedule_name           = azurerm_automation_schedule.this[each.key].name
+  runbook_name            = azurerm_automation_runbook.this[each.value.runbook_key].name
   parameters              = each.value.job_schedule_parameters
   run_on                  = each.value.run_on
   job_schedule_id         = each.value.job_schedule_id
 }
 
-resource "azurerm_automation_webhook" "webhooks" {
+resource "azurerm_automation_webhook" "this" {
   for_each = merge([
-    for runbook_key, runbook in var.config : {
+    for runbook_key, runbook in var.runbooks : {
       for webhook_key, webhook in(runbook.webhooks != null ? runbook.webhooks : {}) :
       "${runbook_key}-${webhook_key}" => merge(webhook, {
         runbook_key = runbook_key
@@ -150,10 +146,10 @@ resource "azurerm_automation_webhook" "webhooks" {
     }
   ]...)
 
-  name                    = coalesce(each.value.name, join("-", [var.naming.automation_webhook, each.key]))
+  name                    = coalesce(each.value.name, each.key)
   resource_group_name     = var.resource_group_name
   automation_account_name = var.automation_account
-  runbook_name            = azurerm_automation_runbook.runbooks[each.value.runbook_key].name
+  runbook_name            = azurerm_automation_runbook.this[each.value.runbook_key].name
   expiry_time             = each.value.expiry_time
   enabled                 = each.value.enabled
   run_on_worker_group     = each.value.run_on_worker_group

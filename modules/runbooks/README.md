@@ -9,28 +9,28 @@ The following requirements are needed by this module:
 
 - <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) (~> 1.0)
 
-- <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) (~> 4.0)
+- <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) (~> 5.0)
 
 ## Providers
 
 The following providers are used by this module:
 
-- <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm) (~> 4.0)
+- <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm) (~> 5.0)
 
 ## Resources
 
 The following resources are used by this module:
 
-- [azurerm_automation_job_schedule.job_schedules](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/automation_job_schedule) (resource)
-- [azurerm_automation_runbook.runbooks](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/automation_runbook) (resource)
-- [azurerm_automation_schedule.schedules](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/automation_schedule) (resource)
-- [azurerm_automation_webhook.webhooks](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/automation_webhook) (resource)
+- [azurerm_automation_job_schedule.this](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/automation_job_schedule) (resource)
+- [azurerm_automation_runbook.this](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/automation_runbook) (resource)
+- [azurerm_automation_schedule.this](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/automation_schedule) (resource)
+- [azurerm_automation_webhook.this](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/automation_webhook) (resource)
 
 ## Required Inputs
 
 The following input variables are required:
 
-### <a name="input_config"></a> [config](#input\_config)
+### <a name="input_runbooks"></a> [runbooks](#input\_runbooks)
 
 Description: contains the runbooks configuration
 
@@ -77,7 +77,7 @@ map(object({
       frequency   = string
       interval    = number
       timezone    = string
-      start_time  = string
+      start_time  = optional(string)
       name        = optional(string)
       description = optional(string)
       week_days   = optional(list(string))
@@ -93,7 +93,7 @@ map(object({
     webhooks = optional(map(object({
       expiry_time         = string
       name                = optional(string)
-      enabled             = optional(bool, true)
+      enabled             = optional(bool)
       run_on_worker_group = optional(string)
       parameters          = optional(map(string))
       uri                 = optional(string)
@@ -120,14 +120,6 @@ Description: contains the region
 Type: `string`
 
 Default: `null`
-
-### <a name="input_naming"></a> [naming](#input\_naming)
-
-Description: used for naming purposes
-
-Type: `map(string)`
-
-Default: `{}`
 
 ### <a name="input_resource_group_name"></a> [resource\_group\_name](#input\_resource\_group\_name)
 

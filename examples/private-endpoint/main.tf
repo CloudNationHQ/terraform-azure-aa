@@ -7,21 +7,19 @@ module "naming" {
 
 module "rg" {
   source  = "cloudnationhq/rg/azure"
-  version = "~> 2.0"
+  version = "~> 3.0"
 
   groups = {
     demo = {
       name     = module.naming.resource_group.name_unique
-      location = "westeurope"
+      location = "swedencentral"
     }
   }
 }
 
 module "network" {
   source  = "cloudnationhq/vnet/azure"
-  version = "~> 9.0"
-
-  naming = local.naming
+  version = "~> 10.0"
 
   vnet = {
     name                = module.naming.virtual_network.name
@@ -38,22 +36,9 @@ module "network" {
   }
 }
 
-module "automation_account" {
-  source  = "cloudnationhq/aa/azure"
-  version = "~> 3.0"
-
-  config = {
-    name                = module.naming.automation_account.name_unique
-    resource_group_name = module.rg.groups.demo.name
-    location            = module.rg.groups.demo.location
-
-    public_network_access_enabled = false
-  }
-}
-
 module "private_dns" {
   source  = "cloudnationhq/pdns/azure"
-  version = "~> 4.0"
+  version = "~> 5.0"
 
   resource_group_name = module.rg.groups.demo.name
 
@@ -72,9 +57,22 @@ module "private_dns" {
   }
 }
 
+module "automation_account" {
+  source  = "cloudnationhq/aa/azure"
+  version = "~> 4.0"
+
+  account = {
+    name                = module.naming.automation_account.name_unique
+    resource_group_name = module.rg.groups.demo.name
+    location            = module.rg.groups.demo.location
+
+    public_network_access_enabled = false
+  }
+}
+
 module "privatelink" {
   source  = "cloudnationhq/pe/azure"
-  version = "~> 2.0"
+  version = "~> 3.0"
 
   resource_group_name = module.rg.groups.demo.name
   location            = module.rg.groups.demo.location
@@ -89,7 +87,7 @@ module "privatelink" {
       }
 
       private_service_connection = {
-        private_connection_resource_id = module.automation_account.config.id
+        private_connection_resource_id = module.automation_account.account.id
         subresource_names              = ["DSCAndHybridWorker"]
       }
     }

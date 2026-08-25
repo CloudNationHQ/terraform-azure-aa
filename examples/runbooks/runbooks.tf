@@ -10,21 +10,19 @@ locals {
       }
       schedules = {
         daily = {
-          frequency  = "Day"
-          interval   = 1
-          timezone   = "Etc/UTC"
-          start_time = "2026-01-01T00:00:00Z"
+          frequency = "Day"
+          interval  = 1
+          timezone  = "Etc/UTC"
           job_schedule_parameters = {
             resourcegroup = "rg-demo-dev"
             vmname        = "vm-demo-dev"
           }
         }
         weekly = {
-          frequency  = "Week"
-          interval   = 1
-          timezone   = "Australia/Perth"
-          start_time = "2026-08-24T18:00:00+02:00"
-          week_days  = ["Friday"]
+          frequency = "Week"
+          interval  = 1
+          timezone  = "Australia/Perth"
+          week_days = ["Friday"]
         }
       }
     }
@@ -42,10 +40,9 @@ locals {
       EOT
       schedules = {
         daily = {
-          frequency  = "Day"
-          interval   = 1
-          timezone   = "Europe/Amsterdam"
-          start_time = "2026-08-24T08:00:00+02:00"
+          frequency = "Day"
+          interval  = 1
+          timezone  = "Europe/Amsterdam"
           job_schedule_parameters = {
             name = "admin"
           }
