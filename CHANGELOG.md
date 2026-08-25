@@ -1,5 +1,17 @@
 # Changelog
 
+## [4.0.0](https://github.com/CloudNationHQ/terraform-azure-aa/compare/v3.3.0...v4.0.0) (2026-08-25)
+
+
+### ⚠ BREAKING CHANGES
+
+* Update azurerm to v5 ([#75](https://github.com/CloudNationHQ/terraform-azure-aa/issues/75))
+
+### Features
+
+* **deps:** bump golang.org/x/crypto from 0.45.0 to 0.52.0 in /tests ([#72](https://github.com/CloudNationHQ/terraform-azure-aa/issues/72)) ([4933977](https://github.com/CloudNationHQ/terraform-azure-aa/commit/493397701205ba2282cf5a5aeca03a211b8fa41e))
+* Update azurerm to v5 ([#75](https://github.com/CloudNationHQ/terraform-azure-aa/issues/75)) ([df8faee](https://github.com/CloudNationHQ/terraform-azure-aa/commit/df8faee29779436b63c95248a427cbcb53bbf7ad))
+
 ## [3.3.0](https://github.com/CloudNationHQ/terraform-azure-aa/compare/v3.2.0...v3.3.0) (2026-05-18)
 
 
